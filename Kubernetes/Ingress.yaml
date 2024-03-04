@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: home-task-6-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "http://home-task-6-identity-service.default.svc.cluster.local/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "http://home-task-6-identity-service.default.svc.cluster.local/auth/login"
+    nginx.ingress.kubernetes.io/auth-response-headers: "X-User"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: arch.homework
+      http:
+        paths:
+          - path: /profile
+            pathType: Prefix
+            backend:
+              service:
+                name: home-task-6-profile-service
+                port:
+                  number: 80

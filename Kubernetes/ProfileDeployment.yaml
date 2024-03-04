@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home-task-6-profile-deployment
+  labels:
+    app: home-task-6-profile
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home-task-6-profile
+  template:
+    metadata:
+      labels:
+        app: home-task-6-profile
+    spec:
+      containers:
+      - name: home-task-6-profile
+        image: kubik27/hometask6:latest
+        env:
+        - name: ConnectionStrings__DataContext
+          valueFrom:
+            secretKeyRef:
+              name: home-task-6-secret
+              key: DataContext
+        ports:
+        - containerPort: 8080

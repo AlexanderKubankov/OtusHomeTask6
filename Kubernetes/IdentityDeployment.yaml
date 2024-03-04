@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home-task-6-identity-deployment
+  labels:
+    app: home-task-6-identity
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home-task-6-identity
+  template:
+    metadata:
+      labels:
+        app: home-task-6-identity
+    spec:
+      containers:
+      - name: home-task-6-identity
+        image: kubik27/mytutorwebapiidentity:latest
+        env:
+        - name: ConnectionStrings__IdentityDataContext
+          valueFrom:
+            secretKeyRef:
+              name: home-task-6-secret
+              key: IdentityDataContext
+        ports:
+        - containerPort: 8080
